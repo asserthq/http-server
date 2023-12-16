@@ -3,8 +3,7 @@
     "configurePresets": [
         {
             "name": "linux-base-gcc",
-            "displayName": "Base Preset (gcc)",
-            "description": "Default preset for Linux systems (gcc)",
+            "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "installDir": "${sourceDir}/install/${presetName}",
@@ -35,9 +34,8 @@
         },
 
         {
-            "name": "windows-base",
-            "displayName": "Base Preset",
-            "description": "Default preset for Windows systems (msvc)",
+            "name": "windows-base-msvc",
+            "hidden": true,
             "generator": "Visual Studio 17 2022",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "installDir": "${sourceDir}/install/${presetName}",
@@ -54,21 +52,19 @@
             }
         },
         {
-            "name": "debug-msvc",
+            "name": "windows-debug",
             "displayName": "Windows Debug (MSVC)",
             "description": "Sets debug build type for MSVC",
-            "inherits": "windows-base",
+            "inherits": "windows-base-msvc",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "cl.exe",
-                "CMAKE_CXX_COMPILER": "cl.exe",
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "release-msvc",
+            "name": "windows-release",
             "displayName": "Windows Release (MSVC)",
             "description": "Sets release build type for MSVC",
-            "inherits": "debug-msvc",
+            "inherits": "windows-base-msvc",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }

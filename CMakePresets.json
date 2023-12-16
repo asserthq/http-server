@@ -1,0 +1,120 @@
+{
+    "version": 4,
+    "configurePresets": [
+        {
+            "name": "linux-base-gcc",
+            "displayName": "Base Preset (gcc)",
+            "description": "Default preset for Linux systems",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/install/${presetName}",
+            "toolchainFile": "$env{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+            }
+        },
+        {
+            "name": "debug-x86_64",
+            "displayName": "Linux Debug, x86_64 (gcc)",
+            "description": "Sets debug build type",
+            "inherits": "linux-base-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-x86_64",
+            "displayName": "Linux Release, x86_64 (gcc)",
+            "description": "Sets release build type",
+            "inherits": "linux-base-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+
+        {
+            "name": "windows-base",
+            "displayName": "Base Preset",
+            "description": "Default preset for Windows systems",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/install/${presetName}",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "debug-msvc",
+            "displayName": "Windows Debug (MSVC)",
+            "description": "Sets debug build type for MSVC",
+            "inherits": "windows-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-msvc",
+            "displayName": "Windows Release (MSVC)",
+            "description": "Sets release build type for MSVC",
+            "inherits": "debug-msvc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+
+
+    "buildPresets": [
+        {
+            "name": "debug-build",
+            "displayName": "Linux Debug Build",
+            "configurePreset": "debug-x86_64",
+            "description": "Default x86_64 debug build"
+        },
+        {
+            "name": "release-build",
+            "displayName": "Linux Release Build",
+            "configurePreset": "release-x86_64",
+            "description": "Default x86_64 release build"
+        },
+
+        {
+            "name": "msvc-debug-build",
+            "displayName": "Windows Debug Build (MSVC)",
+            "configurePreset": "debug-msvc",
+            "description": "Default Windows debug build (MSVC)"
+        },
+        {
+            "name": "msvc-release-build",
+            "displayName": "Windows Release Build (MSVC)",
+            "configurePreset": "release-msvc",
+            "description": "Default Windows release build (MSVC)"
+        }
+    ],
+
+
+    "testPresets": [
+        {
+            "name": "core-test-linux",
+            "description": "Enable output on failure",
+            "configurePreset": "debug-x86_64",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+
+        {
+            "name": "core-test-windows",
+            "description": "Enable output on failure",
+            "configurePreset": "debug-msvc",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}

@@ -4,14 +4,15 @@
         {
             "name": "linux-base-gcc",
             "displayName": "Base Preset (gcc)",
-            "description": "Default preset for Linux systems",
+            "description": "Default preset for Linux systems (gcc)",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "installDir": "${sourceDir}/install/${presetName}",
             "toolchainFile": "$env{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",
-                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+                "CMAKE_CXX_FLAGS": "-Wall -Wpedantic -Wextra -Werror"
             }
         },
         {
@@ -36,10 +37,16 @@
         {
             "name": "windows-base",
             "displayName": "Base Preset",
-            "description": "Default preset for Windows systems",
+            "description": "Default preset for Windows systems (msvc)",
+            "generator": "Visual Studio 17 2022",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "installDir": "${sourceDir}/install/${presetName}",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_CXX_FLAGS": "/W4"
+            },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
